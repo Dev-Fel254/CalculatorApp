@@ -45,6 +45,15 @@ digits.map(digit => {
             return;
         }
 
+        //Reset to start a new calculation
+        if(hasCalculated){
+            firstNumber = '';
+            secondNumber = '';
+            operator = '';
+            currentValue = '';
+            hasCalculated = false;
+        }
+
         if(isSecondNumber){
             secondNumber += digitValue;
             currentValue = secondNumber;
@@ -61,7 +70,21 @@ digits.map(digit => {
 
 operators.map(op => {
     op.addEventListener("click", function(){
-        if(firstNumber !== ''){
+        if(firstNumber !== '' && !hasCalculated){
+            if(operator && secondNumber !== ''){
+                let operator = operate(operator, parseFloat(firstNumber), parseFloat(secondNumber));
+            
+            if(typeof result === 'number'){
+                result = roundResult(result);
+                display.value = result;
+                firstNumber = result.toString();
+                secondNumber = '';
+            }else{
+                display.value = result;
+                firstNumber = '';
+                secondNumber = '';
+            }
+        }
             operator = op.getAttribute('data-value');
             isSecondNumber = true;
             console.log(`Operator selected: ${operator}`); 
@@ -72,18 +95,23 @@ operators.map(op => {
 const equalsButton = document.getElementById("equals");
 equalsButton.addEventListener("click", function(){
     if(firstNumber !== '' && secondNumber !=='' && operator !== ''){
-        let numArray = [parseFloat(firstNumber), parseFloat(secondNumber)];
-        let result = numArray.reduce((acc, curr)=> operate(operator, acc, curr));
+
+        let result = operate(operator, parseFloat(firstNumber), parseFloat(secondNumber));
+
+        if(typeof result === 'number'){
+            result == roundResult(result);
+        }
 
         display.value = result;
-
         firstNumber = result.toString();
         secondNumber = '';
         operator = '';
         isSecondNumber = false;
-        
+        hasCalculated = true;
+       }else{
+            display.value = "Incomplete input";
+        }
         console.log("Result:", result);
-    }
 });
 
 const clearButton = document.getElementById("clear");
@@ -94,6 +122,7 @@ clearButton.addEventListener("click", function(){
     currentValue = '';
     display.value = '';
     isSecondNumber = false;
+    hasCalculated = false;
     console.log("Calculator reset");
     
 });
