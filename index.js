@@ -26,6 +26,7 @@ let operator ='';
 let secondNumber = '';
 let currentValue = '';
 let isSecondNumber = false;
+let hasCalculated = false;
 
 
 const display = document.getElementById("display");
@@ -33,6 +34,8 @@ const display = document.getElementById("display");
 const digits = Array.from(document.getElementsByClassName("digit"));
 const operators = Array.from(document.getElementsByClassName("operator"));
 
+//Rounds the result to avoid long decimals
+const roundResult = (result) => Math.round(result * 1000000)/1000000;
 
 digits.map(digit => {
     digit.addEventListener("click", function ()     {
