@@ -26,32 +26,51 @@ const operate = function(operator, a, b){
     }
 }
 
-let firstNumber = 3;
-let operator ="+";
-let secondNumber = 5;
-
-let result = operate(operator, firstNumber, secondNumber);
-console.log("Result: " + result);
+let firstNumber = '';
+let operator ='';
+let secondNumber = '';
+let currentValue = '';
+let isSecondNumber = false;
 
 
 const display = document.getElementById("display");
 
-const digits = document.getElementsByClassName("digit");
-const operators = document.getElementsByClassName("operator");
+const digits = Array.from(document.getElementsByClassName("digit"));
+const operators = Array.from(document.getElementsByClassName("operator"));
 
-for(let i = 0; i<digits.length; i++){
-    digits[i].addEventListener("click", function(){
-        display.value += digits[i].getAttribute('data-value');
-        console.log('Digit clicked:', digits[i].getAttribute('data-value')); 
-    })
-}
 
-for(let i = 0; i<operators.length; i++){
-    operators[i].addEventListener("click", function(){
-        display.value += operators[i].getAttribute('data-value');                                                                                                                                                  
-        console.log('Operator clicked:', operators[i].getAttribute('data-value'));
+digits.map(digit => {
+    digit.addEventListener("click", function(){
+        const digitValue = digit.getAttribute('data-value');
+    
+        if(digitValue === '.' && (isSecondNumber ? secondNumber : firstNumber).includes('.')){
+            return;
+        }
+        if(secondNumber){
+            secondNumber += digitValue;
+            currentValue = secondNumber;
+        }else{
+            firstNumber += digitValue;
+            currentValue = firstNumber;
+        }
+
+        display.value = currentValue;
+
+        console.log(`Current value: ${currentValue}`);
     })
-}
+})
+
+operators.map(op => {
+    op.addEventListener("click", function(){
+        if(firstNumber !== ''){
+            operator = op.getAttribute('data-value');
+            isSecondNumber = true;
+            console.log(`Operator selected: ${operator}`); 
+        }
+    });
+});
+
+
 
 
 
