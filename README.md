@@ -14,7 +14,5 @@ cd CalculatorApp
 
 No additional installation or dependencies are needed as this is a front-end-only project.
 
-Possible Vulnerabilities
-    1. Input Limitations: The calculator only supports basic arithmetic and operates on a single pair of numbers at a time. Attempting complex operations (like multiple operators in a row without pressing =) may result in incorrect calculations.
-    2. Division by Zero: While division by zero is handled gracefully, it's advisable to avoid any unconventional mathematical operations.
-    3. Rounding Issues: Long decimal results are rounded for display. However, this may cause minor precision errors in calculations involving many decimal points.
+
+    
