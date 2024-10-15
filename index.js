@@ -111,7 +111,6 @@ equalsButton.addEventListener("click", function(){
        }else{
             display.value = "Incomplete input";
         }
-        console.log("Result:", result);
 });
 
 const clearButton = document.getElementById("clear");
